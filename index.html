@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AVTok: 1D Unified Tokenization for Holistic Audio-Video Generation</title>
+  <meta name="description"
+        content="AVTok is a 1D unified tokenizer that jointly encodes an audio-video pair into a single compact 1D latent representation for holistic audio-video generation.">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- academicons for ai ai-arxiv (item 4) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro">
+  <link rel="stylesheet" href="static/css/index.css">
+</head>
+<body>
+
+<!-- ===================== HERO / TITLE ===================== -->
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+
+          <!-- item 1: AVTok on same line as subtitle start; long part wraps to next line -->
+          <h1 class="title is-2 publication-title">
+            <span class="avtok-mark">AVTok</span>: 1D Unified Tokenization for Holistic<br>
+            Audio-Video Generation
+          </h1>
+
+          <!-- item 2: personal page links (I Chieh keeps ORCID) -->
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://tkpham3105.github.io" target="_blank">Kien T. Pham</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://orcid.org/0009-0006-8999-7979" target="_blank">I Chieh Chen</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://cqf.io" target="_blank">Qifeng Chen</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="https://zjuchenlong.github.io" target="_blank">Long Chen</a><sup>1</sup></span>
+          </div>
+
+          <div class="is-size-5 publication-authors affiliation-block">
+            <span class="author-block"><sup>1</sup>The Hong Kong University of Science and Technology</span>
+          </div>
+
+          <!-- item 3: ECCV 2026 in red bold -->
+          <div class="is-size-5 publication-authors" style="margin-top:0.4rem">
+            <span style="color:#c0392b; font-weight:700;">ECCV 2026</span>
+          </div>
+
+          <!-- item 4: fas fa-file-pdf for Paper; ai ai-arxiv only for arXiv -->
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="static/pdfs/avtok_paper.pdf" target="_blank"
+                   class="button is-dark is-rounded">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/XXXX.XXXXX" target="_blank"
+                   class="button is-dark is-rounded">
+                  <span class="icon"><i class="ai ai-arxiv"></i></span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/hkust-longgroup/AVTok" target="_blank"
+                   class="button is-dark is-rounded">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="#galleries" class="button is-dark is-rounded">
+                  <span class="icon"><i class="fas fa-photo-film"></i></span>
+                  <span>Samples</span>
+                </a>
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TEASER ===================== -->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <figure class="fig">
+        <img src="static/images/thumbnail.png" alt="AVTok highlights">
+        <figcaption>
+          <b class="fig-keyword">Highlights.</b> <b>(a)</b> AVTok is a unified tokenizer with a dual-stream
+          transformer architecture that jointly encodes an audio-video pair into a single
+          compact 1D latent representation. <b>(b)</b> It is competitive with state-of-the-art
+          unimodal 1D video tokenizers (<i>top</i>) and audio codecs (<i>bottom</i>).
+          <b>(c)</b> AVTok plugs into AR generative models for audio-to-video, video-to-audio,
+          and joint audio-video generation.
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ABSTRACT ===================== -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 section-title">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Audio-video generation has recently gained unprecedented research attention, aiming
+            to synthesize high-quality sounding video content with fine-grained synchronization
+            and semantic alignment between the auditory and visual components. The preceding
+            methods predominantly adopt a dual-branch design with separate tokenization and
+            generation modules per modality, neglecting the representation gap while necessitating
+            intensive computational resources for proper training. Inspired by recent advancements
+            in one-dimensional visual tokenization, we present <b>AVTok</b>, a novel unified
+            tokenizer designated for holistic audio-video generation. AVTok features a dual-stream
+            transformer-based architecture with shared encoder-decoder and modal-specific learnable
+            queries to efficiently and effectively encode an audio-video pair into a compact
+            one-dimensional latent representation with a unified codebook. To cope with the
+            heterogeneous information imbalance that hinders AVTok from exploiting aligned
+            audio-visual information, we devise a hierarchical training strategy to progressively
+            realize reconstruction capabilities for each modality. Extensive experiments demonstrate
+            that AVTok excels both in audio-video reconstruction and when integrated into downstream
+            pipelines for audio-to-video, video-to-audio, and class-conditional joint audio-video
+            generation. AVTok paves the way for the challenge of joint audio-video tokenization and
+            provides a potential direction to build unified large multimodal models for audio-video
+            generation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MOTIVATION ===================== -->
+<section class="section" style="padding-top:0">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 section-title has-text-centered">Motivation</h2>
+    <figure class="fig">
+      <img src="static/images/motivation.png" alt="Motivation">
+      <figcaption>
+        <b class="fig-keyword">Motivation illustration.</b> <b>Left:</b> Previous audio-video generation models typically adopt a separate pretrained
+        tokenizer per modality and omit the representation gap between their learned embedding
+        spaces. <b>Right:</b> We instead design a unified tokenizer that jointly encodes both
+        modalities into a shared token space. Video and audio embeddings are colored by their
+        respective classes.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ===================== HIGHLIGHTS ===================== -->
+<section class="section" style="padding-top:0">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 section-title has-text-centered">Highlights</h2>
+        <ul class="contributions-list">
+          <li>
+            <span class="contrib-num">1</span>
+            <span><b>1D Unified Audio-Video Tokenization.</b> We propose a novel task that aims at
+            jointly encoding both auditory and visual components into a single 1D latent representation,
+            facilitating efficient and effective audio-video reconstruction and downstream generation.</span>
+          </li>
+          <li>
+            <span class="contrib-num">2</span>
+            <span><b>Dual-stream Tokenizer.</b> A video is patchified into spatio-temporal patch
+            embeddings, while audio is first converted to a normalized mel-spectrogram and patchified
+            like a grayscale image. Each modality uses its own learnable holistic and patch queries
+            plus normalization layers, but shares the encoder-decoder weights — capturing
+            modal-specific information while still fusing the two streams implicitly.</span>
+          </li>
+          <li>
+            <span class="contrib-num">3</span>
+            <span><b>Video-First-Audio-Later (VFAL).</b> Because visual information dominates
+            auditory information, training from scratch suppresses the audio stream. VFAL instead
+            trains the video stream first to establish a strong latent space, then attaches and trains
+            the audio-specific modules, and finally fine-tunes the decoders for refined unified
+            reconstruction. This is complemented by a representation alignment objective and an AR
+            prior that together promote cross-modal correspondence and an AR-friendly token space.</span>
+          </li>
+          <li>
+            <span class="contrib-num">4</span>
+            <span><b>Downstream Generation.</b> Extensive experiments highlight that AVTok excels
+            not only in unified audio-video reconstruction but also in downstream tasks, including
+            audio-to-video, video-to-audio, and class-conditional joint audio-video generation.</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== METHOD ===================== -->
+<section class="section" style="padding-top:0">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 section-title has-text-centered">Method</h2>
+    <figure class="fig">
+      <img src="static/images/pipeline.png" alt="AVTok pipeline">
+      <figcaption>
+        <b class="fig-keyword">Method illustration.</b> <b>(a) AVTok</b> features a dual-stream transformer-based
+        architecture; each stream's forward pass is shown in <b>(b)</b>. It jointly learns video
+        (<span style="color:#1f9bd1">blue</span> stream) and audio
+        (<span style="color:#2faf6a">green</span> stream) reconstruction in a unified holistic
+        scheme, using separate learnable queries and normalization layers per modality while
+        <i>sharing</i> the remaining parameters for implicit cross-modal interaction. Beyond the
+        reconstruction losses, a representation-alignment objective aligns AVTok's continuous
+        tokens with an audio-visual foundation model, and an AR prior model encourages an
+        AR-friendly discrete latent space — enabling downstream <b>(c) audio-to-video</b>,
+        <b>(d) video-to-audio</b>, and <b>(e) class-conditional joint audio-video</b> generation.
+      </figcaption>
+    </figure>
+
+  </div>
+</section>
+
+<!-- ===================== RECONSTRUCTION RESULTS ===================== -->
+<section class="section" style="padding-top:0">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 section-title has-text-centered">Reconstruction Results</h2>
+
+    <!-- item 8: table as image (placeholder until PDF is compiled) -->
+    <figure class="fig">
+      <img src="static/images/table_recon.png" alt="Reconstruction results table"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div class="table-placeholder" style="display:none">
+        <p>📋 Add <code>static/images/table_recon.png</code> here.</p>
+        <p style="margin-top:0.5rem;font-size:0.82rem">
+          Crop from the compiled paper PDF with:<br>
+          <code>python -c "import fitz; p=fitz.open('../paper/main.pdf')[&lt;page&gt;]; p.get_pixmap(clip=p.search_for('OmniTokenizer')[0].expand(…)).save('static/images/table_recon.png')"</code>
+        </p>
+      </div>
+      <figcaption class="has-text-centered">
+        <b>Quantitative comparison of reconstruction.</b> Results are grouped into video-only (VO),
+        audio-only (AO), and joint audio-video (AV) tokenization. W/M denote waveform/mel-spectrogram
+        audio input. <b>Best</b> and <u>second-best</u> are highlighted.
+      </figcaption>
+    </figure>
+
+    <figure class="fig" style="margin-top:2rem">
+      <img src="static/images/token_res.png" alt="Qualitative reconstruction">
+      <figcaption class="has-text-centered">
+        <b>Qualitative comparison of reconstruction results.</b>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ===================== GENERATION RESULTS ===================== -->
+<section class="section" style="padding-top:0">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 section-title has-text-centered">Generation Results</h2>
+
+    <!-- item 8: table as image (placeholder until PDF is compiled) -->
+    <figure class="fig">
+      <img src="static/images/table_gen.png" alt="Generation results table"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div class="table-placeholder" style="display:none">
+        <p>📋 Add <code>static/images/table_gen.png</code> here.</p>
+        <p style="margin-top:0.5rem;font-size:0.82rem">
+          Crop from the compiled paper PDF (the generation comparison table).
+        </p>
+      </div>
+      <figcaption class="has-text-centered">
+        <b>Comparison of generation results</b> across audio-to-video, video-to-audio,
+        and class-conditional joint audio-video generation. Diff / AR / FM denote diffusion,
+        autoregressive, and flow-matching paradigms. <b>Best</b> and <u>second-best</u> are highlighted.
+      </figcaption>
+    </figure>
+
+    <figure class="fig" style="margin-top:2rem">
+      <img src="static/images/qualitative_gen.png" alt="Qualitative generation">
+      <figcaption class="has-text-centered">
+        <b>Qualitative results for downstream generation tasks.</b>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ===================== GALLERIES ===================== -->
+<section class="section" id="galleries">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 section-title has-text-centered">Sounding-Video Samples</h2>
+    <p class="gallery-hint has-text-centered">
+      Every clip below is a <b>sounding video</b> (video + audio in one file). Clips autoplay
+      muted; <b>hover</b> over a clip to hear its audio, or <b>click</b> to pin the sound on/off.
+      Only one clip plays audio at a time.
+    </p>
+
+    <!-- item 7: no abbreviations; "Joint Audio-Video" not "Joint A-V" -->
+    <div class="tabs is-toggle is-centered gallery-tabs">
+      <ul>
+        <li data-task="v2a" class="is-active"><a><span>Video &rarr; Audio</span></a></li>
+        <li data-task="a2v"><a><span>Audio &rarr; Video</span></a></li>
+        <li data-task="cjavg"><a><span>Joint Audio-Video</span></a></li>
+      </ul>
+    </div>
+
+    <div class="has-text-centered" style="margin-bottom:1.2rem">
+      <h3 class="title is-5" id="gallery-title"></h3>
+      <p class="subtitle is-6" id="gallery-blurb" style="color:#666"></p>
+    </div>
+
+    <div class="gallery-panel" data-task="v2a"    id="gallery-v2a"></div>
+    <div class="gallery-panel" data-task="a2v"    id="gallery-a2v"   style="display:none"></div>
+    <div class="gallery-panel" data-task="cjavg"  id="gallery-cjavg" style="display:none"></div>
+  </div>
+</section>
+
+<!-- ===================== BIBTEX ===================== -->
+<section class="section" id="bibtex">
+  <div class="container is-max-desktop bibtex-block">
+    <h2 class="title is-3 section-title">BibTeX</h2>
+    <pre><code>@inproceedings{pham2026avtok,
+  title     = {AVTok: 1D Unified Tokenization for Holistic Audio-Video Generation},
+  author    = {Pham, Kien T. and Chen, I Chieh and Chen, Qifeng and Chen, Long},
+  booktitle = {Proceedings of the European Conference on Computer Vision (ECCV)},
+  year      = {2026}
+}</code></pre>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8 has-text-centered content">
+        <p>
+          This website is licensed under a
+          <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+          Commons Attribution-ShareAlike 4.0 International License</a>. It borrows the page
+          layout from the <a href="https://nerfies.github.io/">Nerfies</a> project page.
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="static/videos/manifest.js"></script>
+<script src="static/js/index.js"></script>
+</body>
+</html>
